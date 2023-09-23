@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Alumnos por Asignatura y Nota</title>
+</head>
+<body>
+  <h1>Buscar Alumnos por Asignatura y Nota</h1>
+
+  <label for="asignatura">Selecciona una asignatura:</label>
+  <select id="asignatura">
+    <option value="matematicas">Matemáticas</option>
+    <option value="lenguaje">Lenguaje</option>
+    <option value="historia">Historia</option>
+    <option value="ciencias">Ciencias</option>
+    <option value="sociales">Sociales</option>
+  </select>
+
+  <label for="nota">Selecciona una nota:</label>
+  <select id="nota">
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>
+
+  <button onclick="buscarAlumnos()">Buscar Alumnos</button>
+
+  <h2>Resultados:</h2>
+  <div id="resultados"></div>
+
+  <script>
+    // Array de alumnos con sus notas en diferentes asignaturas
+    var alumnos = [
+      {
+        nombre: 'Juan Perez',
+        asignaturas: {
+          matematicas: 7,
+          lenguaje: 6,
+          historia: 5,
+          ciencias: 4,
+          sociales: 8
+        }
+      },
+      {
+        nombre: 'Maria Gonzalez',
+        asignaturas: {
+          matematicas: 6,
+          lenguaje: 6,
+          historia: 8,
+          ciencias: 5,
+          sociales: 9
+        }
+      },
+      {
+        nombre: 'Jose Rodriguez',
+        asignaturas: {
+          matematicas: 5,
+          lenguaje: 6,
+          historia: 7,
+          ciencias: 8,
+          sociales: 6
+        }
+      },
+      {
+        nombre: 'Ana Fernandez',
+        asignaturas: {
+          matematicas: 8,
+          lenguaje: 9,
+          historia: 6,
+          ciencias: 7,
+          sociales: 8
+        }
+      },
+      {
+        nombre: 'Pedro Garcia',
+        asignaturas: {
+          matematicas: 9,
+          lenguaje: 6,
+          historia: 7,
+          ciencias: 6,
+          sociales: 5
+        }
+      }
+    ];
+
+    // Función para buscar alumnos con las mismas asignaturas y notas
+    function buscarAlumnosConMismasAsignaturasYNotas(asignaturas, nota) {
+      var alumnosEncontrados = [];
+
+      for (var i = 0; i < alumnos.length; i++) {
+        var tieneAsignaturasComunes = true;
+
+        for (var j = 0; j < asignaturas.length; j++) {
+          var asignatura = asignaturas[j].toLowerCase(); // Convertir a minúsculas para hacer coincidir con el formato del array
+          var notaAlumno = alumnos[i].asignaturas[asignatura];
+
+          if (notaAlumno !== nota) {
+            tieneAsignaturasComunes = false;
+            break;
+          }
+        }
+
+        if (tieneAsignaturasComunes) {
+          alumnosEncontrados.push(alumnos[i].nombre);
+        }
+      }
+
+      return alumnosEncontrados;
+    }
+
+    function buscarAlumnos() {
+      var asignaturaSeleccionada = document.getElementById("asignatura").value.toLowerCase(); // Convertir a minúsculas
+      var notaSeleccionada = parseInt(document.getElementById("nota").value);
+
+      var alumnosEncontrados = buscarAlumnosConMismasAsignaturasYNotas([asignaturaSeleccionada], notaSeleccionada);
+
+      var resultadosDiv = document.getElementById("resultados");
+      resultadosDiv.innerHTML = "";
+
+      if (alumnosEncontrados.length === 0) {
+        resultadosDiv.innerHTML = "No se encontraron alumnos con la asignatura y la nota seleccionadas.";
+      } else {
+        resultadosDiv.innerHTML = "Alumnos encontrados:<br>" + alumnosEncontrados.join("<br>");
+      }
+    }
+  </script>
+</body>
+</html>
