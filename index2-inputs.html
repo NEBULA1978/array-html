@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar y Buscar Ropa de Mujer</title>
+</head>
+<body>
+  <h1>Modificar y Buscar Ropa de Mujer</h1>
+
+  <h2>Ropa de Mujer</h2>
+  <ul id="ropa-list">
+    <!-- Mostrar la ropa de mujer aquí -->
+  </ul>
+
+  <h2>Agregar o Modificar Prenda</h2>
+  <form id="prenda-form">
+    <label for="categoria">Categoría:</label>
+    <input type="text" id="categoria" required><br>
+
+    <label for="marca">Marca:</label>
+    <select id="marca" required>
+      <option value="Adidas">Adidas</option>
+      <option value="Nike">Nike</option>
+      <option value="Puma">Puma</option>
+      <option value="Reebok">Reebok</option>
+      <option value="Fila">Fila</option>
+    </select><br>
+
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" required><br>
+
+    <button type="submit">Agregar/Modificar Prenda</button>
+  </form>
+
+  <h2>Buscar Ropa de Mujer</h2>
+  <form id="buscar-form">
+    <label for="buscar-marca">Marca:</label>
+    <select id="buscar-marca" required>
+      <option value="Adidas">Adidas</option>
+      <option value="Nike">Nike</option>
+      <option value="Puma">Puma</option>
+      <option value="Reebok">Reebok</option>
+      <option value="Fila">Fila</option>
+    </select><br>
+
+    <label for="buscar-precio">Precio:</label>
+    <input type="number" id="buscar-precio" required><br>
+
+    <button type="submit">Buscar</button>
+  </form>
+
+  <h2>Resultados de la Búsqueda</h2>
+  <ul id="busqueda-list">
+    <!-- Mostrar resultados de la búsqueda aquí -->
+  </ul>
+
+  <script>
+    // Array de ropa de mujer con valores iniciales
+    let ropaMujer = [
+      {
+        categoria: 'Vestidos',
+        marca: 'Adidas',
+        precio: 35
+      },
+      {
+        categoria: 'Pantalones',
+        marca: 'Nike',
+        precio: 50
+      },
+      {
+        categoria: 'Camisetas',
+        marca: 'Puma',
+        precio: 25
+      },
+      {
+        categoria: 'Chaquetas',
+        marca: 'Reebok',
+        precio: 80
+      },
+      {
+        categoria: 'Vestidos',
+        marca: 'Fila',
+        precio: 40
+      }
+    ];
+
+    // Función para mostrar la ropa de mujer en la página
+    function mostrarRopa() {
+      const ropaList = document.getElementById("ropa-list");
+      ropaList.innerHTML = "";
+
+      for (const prenda of ropaMujer) {
+        const li = document.createElement("li");
+        li.textContent = `Categoría: ${prenda.categoria}, Marca: ${prenda.marca}, Precio: $${prenda.precio}`;
+        ropaList.appendChild(li);
+      }
+    }
+
+    // Función para mostrar resultados de la búsqueda
+    function mostrarResultadosBusqueda(resultados) {
+      const busquedaList = document.getElementById("busqueda-list");
+      busquedaList.innerHTML = "";
+
+      for (const resultado of resultados) {
+        const li = document.createElement("li");
+        li.textContent = `Categoría: ${resultado.categoria}, Marca: ${resultado.marca}, Precio: $${resultado.precio}`;
+        busquedaList.appendChild(li);
+      }
+    }
+
+    // Manejar el envío del formulario para agregar o modificar prendas
+    const prendaForm = document.getElementById("prenda-form");
+    prendaForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario
+      const categoria = document.getElementById("categoria").value;
+      const marca = document.getElementById("marca").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+
+      // Verificar si la prenda ya existe en el array
+      const prendaExistenteIndex = ropaMujer.findIndex(function (prenda) {
+        return prenda.categoria === categoria && prenda.marca === marca;
+      });
+
+      if (prendaExistenteIndex !== -1) {
+        // Si la prenda existe, actualizar el precio
+        ropaMujer[prendaExistenteIndex].precio = precio;
+      } else {
+        // Si la prenda no existe, agregarla al array
+        ropaMujer.push({ categoria, marca, precio });
+      }
+
+      // Mostrar la ropa de mujer actualizada
+      mostrarRopa();
+
+      // Limpiar el formulario
+      prendaForm.reset();
+    });
+
+    // Manejar el envío del formulario para buscar prendas
+    const buscarForm = document.getElementById("buscar-form");
+    buscarForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario de búsqueda
+      const buscarMarca = document.getElementById("buscar-marca").value;
+      const buscarPrecio = parseFloat(document.getElementById("buscar-precio").value);
+
+      // Realizar la búsqueda en el array de ropa de mujer
+      const resultadosBusqueda = ropaMujer.filter(function (prenda) {
+        return prenda.marca === buscarMarca && prenda.precio < buscarPrecio;
+      });
+
+      // Mostrar los resultados de la búsqueda
+      mostrarResultadosBusqueda(resultadosBusqueda);
+    });
+
+    // Mostrar la ropa de mujer inicial
+    mostrarRopa();
+  </script>
+</body>
+</html>
