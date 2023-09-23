@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar y Buscar Alumnos desde el Navegador</title>
+</head>
+<body>
+  <h1>Modificar y Buscar Alumnos desde el Navegador</h1>
+
+  <h2>Alumnos</h2>
+  <ul id="alumnos-list">
+    <!-- Mostrar los alumnos aquí -->
+  </ul>
+
+  <h2>Agregar o Modificar Alumno</h2>
+  <form id="alumno-form">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" required><br>
+
+    <label for="asignatura">Asignatura:</label>
+    <select id="asignatura" required>
+      <option value="Matemáticas">Matemáticas</option>
+      <option value="Lenguaje">Lenguaje</option>
+      <option value="Historia">Historia</option>
+      <option value="Ciencias">Ciencias</option>
+      <option value="Sociales">Sociales</option>
+    </select><br>
+
+    <label for="nota">Nota:</label>
+    <input type="number" id="nota" required><br>
+
+    <button type="submit">Agregar/Modificar Alumno</button>
+  </form>
+
+  <h2>Buscar Alumnos por Asignatura y Nota</h2>
+  <form id="buscar-form">
+    <label for="buscar-asignatura">Asignatura:</label>
+    <select id="buscar-asignatura" required>
+      <option value="Matemáticas">Matemáticas</option>
+      <option value="Lenguaje">Lenguaje</option>
+      <option value="Historia">Historia</option>
+      <option value="Ciencias">Ciencias</option>
+      <option value="Sociales">Sociales</option>
+    </select><br>
+
+    <label for="buscar-nota">Nota:</label>
+    <input type="number" id="buscar-nota" required><br>
+
+    <button type="submit">Buscar</button>
+  </form>
+
+  <h2>Resultados de la Búsqueda</h2>
+  <ul id="busqueda-list">
+    <!-- Mostrar resultados de la búsqueda aquí -->
+  </ul>
+
+  <script>
+    // Array de alumnos con valores iniciales
+    const alumnos = [
+      {
+        nombre: 'Juan Perez',
+        asignatura: 'Matemáticas',
+        nota: 7
+      },
+      {
+        nombre: 'Maria Gonzalez',
+        asignatura: 'Lenguaje',
+        nota: 6
+      },
+      {
+        nombre: 'Jose Rodriguez',
+        asignatura: 'Historia',
+        nota: 7
+      },
+      {
+        nombre: 'Ana Fernandez',
+        asignatura: 'Matemáticas',
+        nota: 8
+      },
+      {
+        nombre: 'Pedro Garcia',
+        asignatura: 'Ciencias',
+        nota: 6
+      }
+    ];
+
+    // Función para mostrar los alumnos en la página
+    function mostrarAlumnos() {
+      const alumnosList = document.getElementById("alumnos-list");
+      alumnosList.innerHTML = "";
+
+      for (const alumno of alumnos) {
+        const li = document.createElement("li");
+        li.textContent = `Nombre: ${alumno.nombre}, Asignatura: ${alumno.asignatura}, Nota: ${alumno.nota}`;
+        alumnosList.appendChild(li);
+      }
+    }
+
+    // Función para mostrar resultados de la búsqueda
+    function mostrarResultadosBusqueda(resultados) {
+      const busquedaList = document.getElementById("busqueda-list");
+      busquedaList.innerHTML = "";
+
+      for (const resultado of resultados) {
+        const li = document.createElement("li");
+        li.textContent = `Nombre: ${resultado.nombre}, Asignatura: ${resultado.asignatura}, Nota: ${resultado.nota}`;
+        busquedaList.appendChild(li);
+      }
+    }
+
+    // Manejar el envío del formulario para agregar o modificar alumnos
+    const alumnoForm = document.getElementById("alumno-form");
+    alumnoForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario
+      const nombre = document.getElementById("nombre").value;
+      const asignatura = document.getElementById("asignatura").value;
+      const nota = parseInt(document.getElementById("nota").value);
+
+      // Verificar si el alumno ya existe en el array
+      const alumnoExistente = alumnos.find(function (alumno) {
+        return alumno.nombre === nombre && alumno.asignatura === asignatura;
+      });
+
+      if (alumnoExistente) {
+        // Si el alumno existe, actualizar la nota
+        alumnoExistente.nota = nota;
+      } else {
+        // Si el alumno no existe, agregarlo al array
+        alumnos.push({ nombre, asignatura, nota });
+      }
+
+      // Mostrar los alumnos actualizados
+      mostrarAlumnos();
+
+      // Limpiar el formulario
+      alumnoForm.reset();
+    });
+
+    // Manejar el envío del formulario para buscar alumnos
+    const buscarForm = document.getElementById("buscar-form");
+    buscarForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario de búsqueda
+      const buscarAsignatura = document.getElementById("buscar-asignatura").value.toLowerCase();
+      const buscarNota = parseInt(document.getElementById("buscar-nota").value);
+
+      // Realizar la búsqueda en el array de alumnos
+      const resultadosBusqueda = alumnos.filter(function (alumno) {
+        return alumno.asignatura.toLowerCase() === buscarAsignatura && alumno.nota === buscarNota;
+      });
+
+      // Mostrar los resultados de la búsqueda
+      mostrarResultadosBusqueda(resultadosBusqueda);
+    });
+
+    // Mostrar los alumnos iniciales
+    mostrarAlumnos();
+  </script>
+</body>
+</html>
