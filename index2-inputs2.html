@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar y Buscar Ropa de Mujer</title>
+</head>
+<body>
+  <h1>Modificar y Buscar Ropa de Mujer</h1>
+
+  <h2>Ropa de Mujer</h2>
+  <ul id="ropa-list">
+    <!-- Mostrar la ropa de mujer aquí -->
+  </ul>
+
+  <h2>Agregar o Modificar Prenda</h2>
+  <form id="prenda-form">
+    <label for="categoria">Categoría:</label>
+    <input type="text" id="categoria" required><br>
+
+    <label for="marca">Marca:</label>
+    <select id="marca" required>
+      <!-- Marcas se agregarán automáticamente aquí -->
+    </select><br>
+
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" required><br>
+
+    <button type="submit">Agregar/Modificar Prenda</button>
+  </form>
+
+  <h2>Buscar Ropa de Mujer</h2>
+  <form id="buscar-form">
+    <label for="buscar-marca">Marca:</label>
+    <select id="buscar-marca" required>
+      <!-- Marcas se agregarán automáticamente aquí -->
+    </select><br>
+
+    <label for="precio-desde">Precio desde:</label>
+    <input type="number" id="precio-desde" required><br>
+
+    <label for="precio-hasta">Precio hasta:</label>
+    <input type="number" id="precio-hasta" required><br>
+
+    <button type="submit">Buscar</button>
+  </form>
+
+  <h2>Resultados de la Búsqueda</h2>
+  <ul id="busqueda-list">
+    <!-- Mostrar resultados de la búsqueda aquí -->
+  </ul>
+
+  <script>
+    // Array de ropa de mujer con valores iniciales
+    let ropaMujer = [
+      {
+        categoria: 'Vestidos',
+        marca: 'Adidas',
+        precio: 35
+      },
+      {
+        categoria: 'Pantalones',
+        marca: 'Nike',
+        precio: 50
+      },
+      {
+        categoria: 'Camisetas',
+        marca: 'Puma',
+        precio: 25
+      },
+      {
+        categoria: 'Chaquetas',
+        marca: 'Reebok',
+        precio: 80
+      },
+      {
+        categoria: 'Vestidos',
+        marca: 'Fila',
+        precio: 40
+      }
+    ];
+
+    // Conjunto de marcas únicas
+    const marcasUnicas = new Set();
+
+    // Función para mostrar la ropa de mujer en la página y actualizar el selector de marcas
+    function mostrarRopa() {
+      const ropaList = document.getElementById("ropa-list");
+      ropaList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+
+      const marcaSelector = document.getElementById("marca");
+      marcaSelector.innerHTML = ""; // Limpiar el selector de marcas antes de agregar elementos
+
+      for (const prenda of ropaMujer) {
+        const li = document.createElement("li");
+        li.textContent = `Categoría: ${prenda.categoria}, Marca: ${prenda.marca}, Precio: $${prenda.precio}`;
+        ropaList.appendChild(li);
+
+        // Agregar la marca al conjunto de marcas únicas
+        marcasUnicas.add(prenda.marca);
+      }
+
+      // Actualizar el selector de marcas con las marcas únicas
+      for (const marca of marcasUnicas) {
+        const option = document.createElement("option");
+        option.value = marca;
+        option.textContent = marca;
+        marcaSelector.appendChild(option);
+      }
+    }
+
+    // Función para mostrar resultados de la búsqueda
+    function mostrarResultadosBusqueda(resultados) {
+      const busquedaList = document.getElementById("busqueda-list");
+      busquedaList.innerHTML = "";
+
+      for (const resultado of resultados) {
+        const li = document.createElement("li");
+        li.textContent = `Categoría: ${resultado.categoria}, Marca: ${resultado.marca}, Precio: $${resultado.precio}`;
+        busquedaList.appendChild(li);
+      }
+    }
+
+    // Manejar el envío del formulario para agregar o modificar prendas
+    const prendaForm = document.getElementById("prenda-form");
+    prendaForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario
+      const categoria = document.getElementById("categoria").value;
+      const marca = document.getElementById("marca").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+
+      // Buscar si la prenda con la misma marca existe en el array
+      const index = ropaMujer.findIndex(prenda => prenda.marca === marca);
+
+      if (index !== -1) {
+        // Si existe, modificar la prenda
+        ropaMujer[index] = { categoria, marca, precio };
+      } else {
+        // Si no existe, agregar una nueva prenda
+        ropaMujer.push({ categoria, marca, precio });
+
+        // Agregar la nueva marca al conjunto de marcas únicas
+        marcasUnicas.add(marca);
+
+        // Actualizar el selector de marcas con la nueva marca
+        const marcaSelector = document.getElementById("marca");
+        const option = document.createElement("option");
+        option.value = marca;
+        option.textContent = marca;
+        marcaSelector.appendChild(option);
+      }
+
+      // Mostrar la ropa actualizada
+      mostrarRopa();
+
+      // Limpiar el formulario
+      prendaForm.reset();
+    });
+
+    // Manejar el envío del formulario para buscar prendas
+    const buscarForm = document.getElementById("buscar-form");
+    buscarForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario de búsqueda
+      const buscarMarca = document.getElementById("buscar-marca").value;
+      const precioDesde = parseFloat(document.getElementById("precio-desde").value);
+      const precioHasta = parseFloat(document.getElementById("precio-hasta").value);
+
+      // Realizar la búsqueda en el array de ropa de mujer
+      const resultadosBusqueda = ropaMujer.filter(function (prenda) {
+        return prenda.marca === buscarMarca && prenda.precio >= precioDesde && prenda.precio <= precioHasta;
+      });
+
+      // Mostrar los resultados de la búsqueda
+      mostrarResultadosBusqueda(resultadosBusqueda);
+    });
+
+    // Mostrar la ropa de mujer inicial
+    mostrarRopa();
+  </script>
+</body>
+</html>
