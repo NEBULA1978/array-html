@@ -34,7 +34,7 @@
 
   <script>
     // Array de alumnos con sus notas en diferentes asignaturas
-    var alumnos = [
+    const alumnos = [
       {
         nombre: 'Juan Perez',
         asignaturas: {
@@ -89,14 +89,14 @@
 
     // Función para buscar alumnos con las mismas asignaturas y notas
     function buscarAlumnosConMismasAsignaturasYNotas(asignaturas, nota) {
-      var alumnosEncontrados = [];
+      const alumnosEncontrados = [];
 
-      for (var i = 0; i < alumnos.length; i++) {
-        var tieneAsignaturasComunes = true;
+      for (let i = 0; i < alumnos.length; i++) {
+        let tieneAsignaturasComunes = true;
 
-        for (var j = 0; j < asignaturas.length; j++) {
-          var asignatura = asignaturas[j].toLowerCase(); // Convertir a minúsculas para hacer coincidir con el formato del array
-          var notaAlumno = alumnos[i].asignaturas[asignatura];
+        for (let j = 0; j < asignaturas.length; j++) {
+          const asignatura = asignaturas[j].toLowerCase(); // Convertir a minúsculas para hacer coincidir con el formato del array
+          const notaAlumno = alumnos[i].asignaturas[asignatura];
 
           if (notaAlumno !== nota) {
             tieneAsignaturasComunes = false;
@@ -113,12 +113,12 @@
     }
 
     function buscarAlumnos() {
-      var asignaturaSeleccionada = document.getElementById("asignatura").value.toLowerCase(); // Convertir a minúsculas
-      var notaSeleccionada = parseInt(document.getElementById("nota").value);
+      const asignaturaSeleccionada = document.getElementById("asignatura").value.toLowerCase(); // Convertir a minúsculas
+      const notaSeleccionada = parseInt(document.getElementById("nota").value);
 
-      var alumnosEncontrados = buscarAlumnosConMismasAsignaturasYNotas([asignaturaSeleccionada], notaSeleccionada);
+      const alumnosEncontrados = buscarAlumnosConMismasAsignaturasYNotas([asignaturaSeleccionada], notaSeleccionada);
 
-      var resultadosDiv = document.getElementById("resultados");
+      const resultadosDiv = document.getElementById("resultados");
       resultadosDiv.innerHTML = "";
 
       if (alumnosEncontrados.length === 0) {

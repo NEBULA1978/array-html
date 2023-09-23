@@ -33,7 +33,7 @@
 
   <script>
     // Array de ropa de mujer con categorías, marcas y precios
-    var ropaMujer = [
+    const ropaMujer = [
       {
         categoria: 'Vestidos',
         marca: 'Adidas',
@@ -63,14 +63,14 @@
 
     // Función para buscar ropa de mujer por marca y precio
     function buscarRopa() {
-      var marcaSeleccionada = document.getElementById("marca").value;
-      var precioSeleccionado = parseInt(document.getElementById("precio").value);
+      const marcaSeleccionada = document.getElementById("marca").value;
+      const precioSeleccionado = parseInt(document.getElementById("precio").value);
 
-      var ropaEncontrada = ropaMujer.filter(function (prenda) {
+      const ropaEncontrada = ropaMujer.filter(function (prenda) {
         return prenda.marca === marcaSeleccionada && prenda.precio < precioSeleccionado;
       });
 
-      var resultadosDiv = document.getElementById("resultados");
+      const resultadosDiv = document.getElementById("resultados");
       resultadosDiv.innerHTML = "";
 
       if (ropaEncontrada.length === 0) {
