@@ -8,6 +8,22 @@
 <body>
   <h1>Modificar y Buscar Ropa de Mujer</h1>
 
+  <h2>Buscar Ropa de Mujer</h2>
+  <form id="buscar-form">
+    <label for="buscar-marca">Marca:</label>
+    <select id="buscar-marca">
+      <!-- Marcas se agregarán automáticamente aquí -->
+    </select><br>
+
+    <label for="precio-desde">Precio desde:</label>
+    <input type="number" id="precio-desde" required><br>
+
+    <label for="precio-hasta">Precio hasta:</label>
+    <input type="number" id="precio-hasta" required><br>
+
+    <button type="submit">Buscar</button>
+  </form>
+
   <h2>Ropa de Mujer</h2>
   <ul id="ropa-list">
     <!-- Mostrar la ropa de mujer aquí -->
@@ -19,30 +35,12 @@
     <input type="text" id="categoria" required><br>
 
     <label for="marca">Marca:</label>
-    <select id="marca" required>
-      <!-- Marcas se agregarán automáticamente aquí -->
-    </select><br>
+    <input type="text" id="marca" required><br>
 
     <label for="precio">Precio:</label>
     <input type="number" id="precio" required><br>
 
     <button type="submit">Agregar/Modificar Prenda</button>
-  </form>
-
-  <h2>Buscar Ropa de Mujer</h2>
-  <form id="buscar-form">
-    <label for="buscar-marca">Marca:</label>
-    <select id="buscar-marca" required>
-      <!-- Marcas se agregarán automáticamente aquí -->
-    </select><br>
-
-    <label for="precio-desde">Precio desde:</label>
-    <input type="number" id="precio-desde" required><br>
-
-    <label for="precio-hasta">Precio hasta:</label>
-    <input type="number" id="precio-hasta" required><br>
-
-    <button type="submit">Buscar</button>
   </form>
 
   <h2>Resultados de la Búsqueda</h2>
@@ -88,7 +86,7 @@
       const ropaList = document.getElementById("ropa-list");
       ropaList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
-      const marcaSelector = document.getElementById("marca");
+      const marcaSelector = document.getElementById("buscar-marca");
       marcaSelector.innerHTML = ""; // Limpiar el selector de marcas antes de agregar elementos
 
       for (const prenda of ropaMujer) {
@@ -144,8 +142,8 @@
         // Agregar la nueva marca al conjunto de marcas únicas
         marcasUnicas.add(marca);
 
-        // Actualizar el selector de marcas con la nueva marca
-        const marcaSelector = document.getElementById("marca");
+        // Actualizar el selector de marcas con las nuevas marcas
+        const marcaSelector = document.getElementById("buscar-marca");
         const option = document.createElement("option");
         option.value = marca;
         option.textContent = marca;
