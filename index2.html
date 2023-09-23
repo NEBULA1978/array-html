@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Ropa de Mujer por Marca y Precio</title>
+</head>
+<body>
+  <h1>Buscar Ropa de Mujer por Marca y Precio</h1>
+
+  <label for="marca">Selecciona una marca:</label>
+  <select id="marca">
+    <option value="Adidas">Adidas</option>
+    <option value="Nike">Nike</option>
+    <option value="Puma">Puma</option>
+    <option value="Reebok">Reebok</option>
+    <option value="Fila">Fila</option>
+  </select>
+
+  <label for="precio">Selecciona un precio:</label>
+  <select id="precio">
+    <option value="20">Menos de $20</option>
+    <option value="50">Menos de $50</option>
+    <option value="100">Menos de $100</option>
+    <option value="200">Menos de $200</option>
+    <option value="1000">Menos de $1000</option>
+  </select>
+
+  <button onclick="buscarRopa()">Buscar Ropa</button>
+
+  <h2>Resultados:</h2>
+  <div id="resultados"></div>
+
+  <script>
+    // Array de ropa de mujer con categorías, marcas y precios
+    var ropaMujer = [
+      {
+        categoria: 'Vestidos',
+        marca: 'Adidas',
+        precio: 35
+      },
+      {
+        categoria: 'Pantalones',
+        marca: 'Nike',
+        precio: 50
+      },
+      {
+        categoria: 'Camisetas',
+        marca: 'Puma',
+        precio: 25
+      },
+      {
+        categoria: 'Chaquetas',
+        marca: 'Reebok',
+        precio: 80
+      },
+      {
+        categoria: 'Vestidos',
+        marca: 'Fila',
+        precio: 40
+      }
+    ];
+
+    // Función para buscar ropa de mujer por marca y precio
+    function buscarRopa() {
+      var marcaSeleccionada = document.getElementById("marca").value;
+      var precioSeleccionado = parseInt(document.getElementById("precio").value);
+
+      var ropaEncontrada = ropaMujer.filter(function (prenda) {
+        return prenda.marca === marcaSeleccionada && prenda.precio < precioSeleccionado;
+      });
+
+      var resultadosDiv = document.getElementById("resultados");
+      resultadosDiv.innerHTML = "";
+
+      if (ropaEncontrada.length === 0) {
+        resultadosDiv.innerHTML = "No se encontró ropa con la marca y precio seleccionados.";
+      } else {
+        resultadosDiv.innerHTML = "Ropa encontrada:<br>";
+        ropaEncontrada.forEach(function (prenda) {
+          resultadosDiv.innerHTML += "Categoría: " + prenda.categoria + ", Marca: " + prenda.marca + ", Precio: $" + prenda.precio + "<br>";
+        });
+      }
+    }
+  </script>
+</body>
+</html>
