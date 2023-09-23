@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar Array desde el Navegador</title>
+</head>
+<body>
+  <h1>Modificar Array desde el Navegador</h1>
+
+  <h2>Alumnos</h2>
+  <ul id="alumnos-list">
+    <!-- Mostrar los alumnos aquí -->
+  </ul>
+
+  <h2>Agregar Nuevo Alumno</h2>
+  <form id="alumno-form">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" required><br>
+
+    <label for="asignatura">Asignatura:</label>
+    <input type="text" id="asignatura" required><br>
+
+    <label for="nota">Nota:</label>
+    <input type="number" id="nota" required><br>
+
+    <button type="submit">Agregar Alumno</button>
+  </form>
+
+  <script>
+    // Array de alumnos
+    const alumnos = [];
+
+    // Función para mostrar los alumnos en la página
+    function mostrarAlumnos() {
+      const alumnosList = document.getElementById("alumnos-list");
+      alumnosList.innerHTML = "";
+
+      for (const alumno of alumnos) {
+        const li = document.createElement("li");
+        li.textContent = `Nombre: ${alumno.nombre}, Asignatura: ${alumno.asignatura}, Nota: ${alumno.nota}`;
+        alumnosList.appendChild(li);
+      }
+    }
+
+    // Manejar el envío del formulario
+    const alumnoForm = document.getElementById("alumno-form");
+    alumnoForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Obtener los valores del formulario
+      const nombre = document.getElementById("nombre").value;
+      const asignatura = document.getElementById("asignatura").value;
+      const nota = parseInt(document.getElementById("nota").value);
+
+      // Agregar el nuevo alumno al array
+      alumnos.push({ nombre, asignatura, nota });
+
+      // Mostrar los alumnos actualizados
+      mostrarAlumnos();
+
+      // Limpiar el formulario
+      alumnoForm.reset();
+    });
+
+    // Mostrar los alumnos iniciales (si los tienes)
+    mostrarAlumnos();
+  </script>
+</body>
+</html>
